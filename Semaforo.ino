@@ -1,0 +1,57 @@
+void setup() {
+  pinMode(13, OUTPUT); // Verde
+  pinMode(12, OUTPUT); // Amarillo
+  pinMode(11, OUTPUT); // Rojo
+
+  // Apagar todos los LEDs al inicio
+  digitalWrite(13, LOW);
+  digitalWrite(12, LOW);
+  digitalWrite(11, LOW);
+
+  Serial.begin(9600); // Iniciar comunicación serie
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    char comando = Serial.read();
+
+    // Apagar todos los LEDs antes de iniciar una acción
+    digitalWrite(13, LOW);
+    digitalWrite(12, LOW);
+    digitalWrite(11, LOW);
+
+    switch (comando) {
+      case '1': // Parpadea el verde
+        for (int i = 0; i < 5; i++) {
+          digitalWrite(13, HIGH);
+          delay(500);
+          digitalWrite(13, LOW);
+          delay(500);
+        }
+        break;
+
+      case '2': // Parpadea el rojo
+        for (int i = 0; i < 5; i++) {
+          digitalWrite(11, HIGH);
+          delay(500);
+          digitalWrite(11, LOW);
+          delay(500);
+        }
+        break;
+
+      case '3': // Secuencia verde → amarillo → rojo
+        digitalWrite(13, HIGH); // Verde
+        delay(1000);
+        digitalWrite(13, LOW);
+
+        digitalWrite(12, HIGH); // Amarillo
+        delay(1000);
+        digitalWrite(12, LOW);
+
+        digitalWrite(11, HIGH); // Rojo
+        delay(1000);
+        digitalWrite(11, LOW);
+        break;
+    }
+  }
+}
